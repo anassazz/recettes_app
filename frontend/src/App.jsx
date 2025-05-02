@@ -11,7 +11,6 @@ import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
 import RecipeView from './pages/RecipeView';
 
-
 function App() {
   return (
     <Router>
@@ -21,6 +20,7 @@ function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/recipes/:id" element={<RecipeView />} />
               
               <Route 
                 path="/login" 
@@ -59,8 +59,6 @@ function App() {
               />
               
               <Route path="*" element={<NotFound />} />
-              <Route path="/recipes/:id" element={<RecipeView />} />
-                
             </Routes>
           </main>
         </div>
