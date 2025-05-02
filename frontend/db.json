@@ -144,11 +144,6 @@
   ],
   "favorites": [
     {
-      "id": "1746175600055",
-      "userId": "2",
-      "recipeId": "2"
-    },
-    {
       "id": "1746175601670",
       "userId": "2",
       "recipeId": "3"
@@ -172,6 +167,19 @@
       "id": "1746200742783",
       "userId": "1746020455574",
       "recipeId": "2"
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "userId": "1746020455574",
+      "userName": "ANASS AZZ",
+      "userAvatar": null,
+      "recipeId": "2",
+      "text": "Excellente recette !",
+      "rating": 5,
+      "createdAt": "2024-08-20T12:34:56Z",
+      "likes": []
     }
   ]
 }
