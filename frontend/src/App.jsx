@@ -9,6 +9,8 @@ import Register from './pages/Register';
 import UserDashboard from './pages/UserDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
+import RecipeView from './pages/RecipeView';
+
 
 function App() {
   return (
@@ -57,6 +59,8 @@ function App() {
               />
               
               <Route path="*" element={<NotFound />} />
+              <Route path="/recipes/:id" element={<RecipeView />} />
+                
             </Routes>
           </main>
         </div>
