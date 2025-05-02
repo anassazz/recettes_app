@@ -1,139 +1,155 @@
 {
-    "users": [
-      {
-        "id": "1",
-        "name": "Admin",
-        "email": "admin@404recettes.com",
-        "password": "admin123",
-        "role": "admin"
-      },
-      {
-        "id": "2",
-        "name": "Utilisateur",
-        "email": "user@404recettes.com",
-        "password": "user123",
-        "role": "user"
-      },
-      {
-        "id": "1746020455574",
-        "name": "ANASS AZZ",
-        "email": "anassazz@outlook.com",
-        "password": "1234567",
-        "role": "user"
-      },
-      {
-        "id": "1746020680053",
-        "name": "yyyy",
-        "email": "anass.azz2030@gmail.com",
-        "password": "1234777",
-        "role": "user"
-      }
-    ],
-    "recipes": [
-      {
-        "id": "2",
-        "title": "Risotto aux champignons",
-        "description": "Un risotto crémeux aux champignons de Paris et champignons des bois, parfumé au parmesan et à l'huile de truffe.",
-        "prepTime": 35,
-        "difficulty": "Moyen",
-        "ingredients": [
-          "300g de riz à risotto (arborio ou carnaroli)",
-          "250g de champignons mélangés",
-          "1 oignon",
-          "2 gousses d'ail",
-          "100ml de vin blanc sec",
-          "750ml de bouillon de légumes",
-          "50g de parmesan râpé",
-          "2 cuillères à soupe d'huile d'olive",
-          "Quelques gouttes d'huile de truffe (facultatif)",
-          "Sel et poivre"
-        ],
-        "instructions": [
-          "Faire revenir l'oignon émincé dans l'huile d'olive",
-          "Ajouter l'ail écrasé et les champignons coupés en morceaux",
-          "Ajouter le riz et le faire nacrer pendant 2 minutes",
-          "Verser le vin blanc et laisser évaporer",
-          "Ajouter le bouillon chaud petit à petit en remuant régulièrement",
-          "Quand le riz est cuit (environ 18 minutes), ajouter le parmesan",
-          "Assaisonner et ajouter quelques gouttes d'huile de truffe"
-        ],
-        "image": "https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg",
-        "featured": true,
-        "rating": 4.6
-      },
-      {
-        "id": "3",
-        "title": "Salade César au poulet grillé",
-        "description": "Une salade César revisitée avec du poulet grillé mariné, des croûtons à l'ail et une sauce César maison onctueuse.",
-        "prepTime": 25,
-        "difficulty": "Facile",
-        "ingredients": [
-          "2 filets de poulet",
-          "1 laitue romaine",
-          "50g de parmesan en copeaux",
-          "2 tranches de pain de campagne",
-          "1 gousse d'ail",
-          "2 cuillères à soupe d'huile d'olive",
-          "Pour la sauce: 1 jaune d'œuf, 1 cuillère à café de moutarde, 1 filet d'anchois, 5cl d'huile, jus de citron"
-        ],
-        "instructions": [
-          "Mariner les filets de poulet dans de l'huile d'olive, du citron et des herbes",
-          "Griller le poulet 6 minutes de chaque côté",
-          "Préparer les croûtons en coupant le pain en dés et en les faisant revenir avec de l'huile et de l'ail",
-          "Laver et essorer la salade, la couper en morceaux",
-          "Préparer la sauce en mélangeant tous les ingrédients",
-          "Couper le poulet en tranches",
-          "Assembler la salade avec la sauce, les croûtons, le poulet et le parmesan"
-        ],
-        "image": "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg",
-        "featured": false,
-        "rating": 4.5
-      },
-      {
-        "id": "4",
-        "title": "Tiramisu classique",
-        "description": "Le dessert italien par excellence, avec ses couches de biscuits imbibés de café et sa crème au mascarpone légère et aérienne.",
-        "prepTime": 30,
-        "difficulty": "Facile",
-        "ingredients": [
-          "250g de mascarpone",
-          "3 œufs",
-          "75g de sucre",
-          "200g de biscuits à la cuillère",
-          "25cl de café fort",
-          "2 cuillères à soupe de cacao amer",
-          "2 cuillères à soupe d'amaretto (facultatif)"
-        ],
-        "instructions": [
-          "Séparer les blancs des jaunes d'œufs",
-          "Fouetter les jaunes avec le sucre jusqu'à ce que le mélange blanchisse",
-          "Ajouter le mascarpone et mélanger jusqu'à obtenir une crème lisse",
-          "Monter les blancs en neige et les incorporer délicatement à la crème",
-          "Préparer le café et y ajouter l'amaretto si désiré",
-          "Tremper rapidement les biscuits dans le café et les disposer dans un plat",
-          "Recouvrir d'une couche de crème, puis répéter l'opération",
-          "Saupoudrer de cacao et réserver au frais pendant au moins 4 heures"
-        ],
-        "image": "https://images.pexels.com/photos/6601202/pexels-photo-6601202.jpeg",
-        "featured": true,
-        "rating": 4.9
-      }
-    ],
-    "favorites": [
-      {
-        "id": "2",
-        "userId": "2",
-        "recipeId": "4"
-      },
-      {
-        "id": "1746020486147",
-        "userId": "1746020455574",
-        "recipeId": "2"
-      },
-      {
-        "id": "1746026319450",
-        "userId": "2",
-        "recipeId": "2"
-      }
-    ]
-  }
+  "users": [
+    {
+      "id": "1",
+      "name": "Admin",
+      "email": "admin@404recettes.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": "2",
+      "name": "Utilisateur",
+      "email": "user@404recettes.com",
+      "password": "user123",
+      "role": "user"
+    },
+    {
+      "id": "1746020455574",
+      "name": "ANASS AZZ",
+      "email": "anassazz@outlook.com",
+      "password": "1234567",
+      "role": "user"
+    },
+    {
+      "id": "1746020680053",
+      "name": "yyyy",
+      "email": "anass.azz2030@gmail.com",
+      "password": "1234777",
+      "role": "user"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "2",
+      "title": "Risotto aux champignons",
+      "description": "Un risotto crémeux aux champignons de Paris et champignons des bois, parfumé au parmesan et à l'huile de truffe.",
+      "prepTime": 35,
+      "difficulty": "Moyen",
+      "ingredients": [
+        "300g de riz à risotto (arborio ou carnaroli)",
+        "250g de champignons mélangés",
+        "1 oignon",
+        "2 gousses d'ail",
+        "100ml de vin blanc sec",
+        "750ml de bouillon de légumes",
+        "50g de parmesan râpé",
+        "2 cuillères à soupe d'huile d'olive",
+        "Quelques gouttes d'huile de truffe (facultatif)",
+        "Sel et poivre"
+      ],
+      "instructions": [
+        "Faire revenir l'oignon émincé dans l'huile d'olive",
+        "Ajouter l'ail écrasé et les champignons coupés en morceaux",
+        "Ajouter le riz et le faire nacrer pendant 2 minutes",
+        "Verser le vin blanc et laisser évaporer",
+        "Ajouter le bouillon chaud petit à petit en remuant régulièrement",
+        "Quand le riz est cuit (environ 18 minutes), ajouter le parmesan",
+        "Assaisonner et ajouter quelques gouttes d'huile de truffe"
+      ],
+      "image": "https://images.pexels.com/photos/5638527/pexels-photo-5638527.jpeg",
+      "featured": true,
+      "rating": 4.6
+    },
+    {
+      "id": "3",
+      "title": "Salade César au poulet grillé",
+      "description": "Une salade César revisitée avec du poulet grillé mariné, des croûtons à l'ail et une sauce César maison onctueuse.",
+      "prepTime": 25,
+      "difficulty": "Facile",
+      "ingredients": [
+        "2 filets de poulet",
+        "1 laitue romaine",
+        "50g de parmesan en copeaux",
+        "2 tranches de pain de campagne",
+        "1 gousse d'ail",
+        "2 cuillères à soupe d'huile d'olive",
+        "Pour la sauce: 1 jaune d'œuf, 1 cuillère à café de moutarde, 1 filet d'anchois, 5cl d'huile, jus de citron"
+      ],
+      "instructions": [
+        "Mariner les filets de poulet dans de l'huile d'olive, du citron et des herbes",
+        "Griller le poulet 6 minutes de chaque côté",
+        "Préparer les croûtons en coupant le pain en dés et en les faisant revenir avec de l'huile et de l'ail",
+        "Laver et essorer la salade, la couper en morceaux",
+        "Préparer la sauce en mélangeant tous les ingrédients",
+        "Couper le poulet en tranches",
+        "Assembler la salade avec la sauce, les croûtons, le poulet et le parmesan"
+      ],
+      "image": "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg",
+      "featured": false,
+      "rating": 4.5
+    },
+    {
+      "id": "4",
+      "title": "Tiramisu classique",
+      "description": "Le dessert italien par excellence, avec ses couches de biscuits imbibés de café et sa crème au mascarpone légère et aérienne.",
+      "prepTime": 30,
+      "difficulty": "Facile",
+      "ingredients": [
+        "250g de mascarpone",
+        "3 œufs",
+        "75g de sucre",
+        "200g de biscuits à la cuillère",
+        "25cl de café fort",
+        "2 cuillères à soupe de cacao amer",
+        "2 cuillères à soupe d'amaretto (facultatif)"
+      ],
+      "instructions": [
+        "Séparer les blancs des jaunes d'œufs",
+        "Fouetter les jaunes avec le sucre jusqu'à ce que le mélange blanchisse",
+        "Ajouter le mascarpone et mélanger jusqu'à obtenir une crème lisse",
+        "Monter les blancs en neige et les incorporer délicatement à la crème",
+        "Préparer le café et y ajouter l'amaretto si désiré",
+        "Tremper rapidement les biscuits dans le café et les disposer dans un plat",
+        "Recouvrir d'une couche de crème, puis répéter l'opération",
+        "Saupoudrer de cacao et réserver au frais pendant au moins 4 heures"
+      ],
+      "image": "https://images.pexels.com/photos/6601202/pexels-photo-6601202.jpeg",
+      "featured": true,
+      "rating": 4.9
+    },
+    {
+      "title": "Plat fasse foude",
+      "description": "Parcourez des images premium sur iStock | - 20 % avec le code UNSPLASH20\n\n",
+      "prepTime": "29",
+      "difficulty": "Moyen",
+      "ingredients": [
+        "2OOG"
+      ],
+      "instructions": [
+        "MEL"
+      ],
+      "image": "https://i.pinimg.com/736x/2d/8e/e6/2d8ee64c8469a7a1e80d8fe9596263cc.jpg",
+      "featured": true,
+      "rating": "4.4",
+      "id": "1746175530854"
+    }
+  ],
+  "favorites": [
+    {
+      "id": "1746020486147",
+      "userId": "1746020455574",
+      "recipeId": "2"
+    },
+    {
+      "id": "1746175600055",
+      "userId": "2",
+      "recipeId": "2"
+    },
+    {
+      "id": "1746175601670",
+      "userId": "2",
+      "recipeId": "3"
+    }
+  ]
+}
