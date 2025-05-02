@@ -8,7 +8,11 @@ import {
   ArrowLeft, 
   ChefHat, 
   AlertCircle, 
-  CheckCircle
+  CheckCircle,
+  MessageSquare,
+  ThumbsUp,
+  Edit,
+  Trash2
 } from 'lucide-react';
 
 const RecipeView = () => {
@@ -20,6 +24,13 @@ const RecipeView = () => {
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
   const [notification, setNotification] = useState(null);
+  
+  // Reviews state
+  const [reviews, setReviews] = useState([]);
+  const [newReview, setNewReview] = useState({ text: '', rating: 5 });
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+  const [editingReviewId, setEditingReviewId] = useState(null);
+  const [showReviews, setShowReviews] = useState(true);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -54,8 +65,21 @@ const RecipeView = () => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/reviews?recipeId=${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setReviews(data);
+        }
+      } catch (error) {
+        console.error('Erreur lors du chargement des avis:', error);
+      }
+    };
+
     fetchRecipe();
     checkFavoriteStatus();
+    fetchReviews();
   }, [id, navigate, currentUser]);
 
   const showNotification = (message, type = 'success') => {
@@ -96,6 +120,207 @@ const RecipeView = () => {
       console.error('Erreur lors de la mise à jour des favoris:', error);
       showNotification('Une erreur est survenue', 'error');
     }
+  };
+
+  // Handle review rating change
+  const handleRatingChange = (rating) => {
+    setNewReview(prev => ({ ...prev, rating }));
+  };
+
+  // Handle review text change
+  const handleReviewTextChange = (e) => {
+    setNewReview(prev => ({ ...prev, text: e.target.value }));
+  };
+
+  // Submit a new review
+  const submitReview = async (e) => {
+    e.preventDefault();
+    
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+
+    if (!newReview.text.trim()) {
+      showNotification('Veuillez écrire un commentaire', 'error');
+      return;
+    }
+
+    setIsSubmittingReview(true);
+    
+    try {
+      if (editingReviewId) {
+        // Update existing review
+        const response = await fetch(`http://localhost:3000/reviews/${editingReviewId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            text: newReview.text,
+            rating: newReview.rating
+          }),
+        });
+        
+        if (response.ok) {
+          const updatedReview = await response.json();
+          setReviews(reviews.map(r => r.id === editingReviewId ? updatedReview : r));
+          showNotification('Avis mis à jour avec succès');
+          setEditingReviewId(null);
+        }
+      } else {
+        // Submit new review
+        const response = await fetch('http://localhost:3000/reviews', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: currentUser.id,
+            userName: currentUser.displayName || 'Utilisateur',
+            userAvatar: currentUser.photoURL || null,
+            recipeId: id,
+            text: newReview.text,
+            rating: newReview.rating,
+            createdAt: new Date().toISOString()
+          }),
+        });
+        
+        if (response.ok) {
+          const newReviewData = await response.json();
+          setReviews([...reviews, newReviewData]);
+          showNotification('Avis publié avec succès');
+        }
+      }
+      
+      // Reset form
+      setNewReview({ text: '', rating: 5 });
+    } catch (error) {
+      console.error('Erreur lors de la soumission de l\'avis:', error);
+      showNotification('Une erreur est survenue', 'error');
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
+
+  // Edit a review
+  const editReview = (review) => {
+    setNewReview({ text: review.text, rating: review.rating });
+    setEditingReviewId(review.id);
+    // Scroll to review form
+    document.getElementById('review-form').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Delete a review
+  const deleteReview = async (reviewId) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer cet avis ?')) return;
+    
+    try {
+      const response = await fetch(`http://localhost:3000/reviews/${reviewId}`, {
+        method: 'DELETE',
+      });
+      
+      if (response.ok) {
+        setReviews(reviews.filter(r => r.id !== reviewId));
+        showNotification('Avis supprimé avec succès');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression de l\'avis:', error);
+      showNotification('Une erreur est survenue', 'error');
+    }
+  };
+
+  // Like a review
+  const likeReview = async (reviewId) => {
+    if (!currentUser) {
+      navigate('/login');
+      return;
+    }
+    
+    const reviewToUpdate = reviews.find(r => r.id === reviewId);
+    
+    // Check if user already liked this review
+    const userLiked = reviewToUpdate.likes?.includes(currentUser.id);
+    let updatedLikes = [...(reviewToUpdate.likes || [])];
+    
+    if (userLiked) {
+      // Unlike
+      updatedLikes = updatedLikes.filter(id => id !== currentUser.id);
+    } else {
+      // Like
+      updatedLikes.push(currentUser.id);
+    }
+    
+    try {
+      const response = await fetch(`http://localhost:3000/reviews/${reviewId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          likes: updatedLikes
+        }),
+      });
+      
+      if (response.ok) {
+        const updatedReview = await response.json();
+        setReviews(reviews.map(r => r.id === reviewId ? updatedReview : r));
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour des likes:', error);
+    }
+  };
+
+  // Cancel editing
+  const cancelEditing = () => {
+    setEditingReviewId(null);
+    setNewReview({ text: '', rating: 5 });
+  };
+
+  // Format date for display
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('fr-FR', options);
+  };
+
+  // Render star rating for input
+  const renderRatingInput = () => {
+    return (
+      <div className="flex items-center space-x-1 mb-4">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            type="button"
+            onClick={() => handleRatingChange(star)}
+            className="focus:outline-none"
+          >
+            <Star
+              size={24}
+              className={`${
+                star <= newReview.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+              } cursor-pointer`}
+            />
+          </button>
+        ))}
+      </div>
+    );
+  };
+
+  // Render star rating display
+  const renderRatingDisplay = (rating) => {
+    return (
+      <div className="flex items-center">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            size={16}
+            className={`${
+              star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'
+            }`}
+          />
+        ))}
+      </div>
+    );
   };
 
   if (loading) {
@@ -165,6 +390,10 @@ const RecipeView = () => {
                 <Star size={16} className="mr-1 text-yellow-400" />
                 <span>{recipe.rating}/5</span>
               </div>
+              <div className="flex items-center">
+                <MessageSquare size={16} className="mr-1" />
+                <span>{reviews.length} avis</span>
+              </div>
             </div>
           </div>
         </div>
@@ -172,7 +401,7 @@ const RecipeView = () => {
 
       {/* Recipe Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8 mb-8">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-gray-800">À propos de la recette</h2>
             <button
@@ -232,6 +461,156 @@ const RecipeView = () => {
               Vous pouvez remplacer certains ingrédients selon vos préférences ou restrictions alimentaires.
             </p>
           </div>
+        </div>
+
+        {/* Reviews Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-800 flex items-center">
+              <MessageSquare size={20} className="mr-2" />
+              Avis ({reviews.length})
+            </h2>
+            <button 
+              onClick={() => setShowReviews(!showReviews)}
+              className="text-sm text-gray-600 hover:text-gray-800"
+            >
+              {showReviews ? 'Masquer les avis' : 'Afficher les avis'}
+            </button>
+          </div>
+
+          {/* Reviews Form */}
+          <div id="review-form" className="mb-8 border-b border-gray-200 pb-8">
+            <h3 className="text-lg font-semibold mb-4">
+              {editingReviewId ? 'Modifier votre avis' : 'Partagez votre avis'}
+            </h3>
+            
+            {!currentUser ? (
+              <div className="bg-blue-50 text-orange-700 p-4 rounded-md mb-4">
+                <p>Connectez-vous pour laisser un avis sur cette recette.</p>
+                <button 
+                  onClick={() => navigate('/login')}
+                  className="mt-2 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700"
+                >
+                  Se connecter
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={submitReview}>
+                {renderRatingInput()}
+                
+                <textarea
+                  value={newReview.text}
+                  onChange={handleReviewTextChange}
+                  placeholder="Partagez votre expérience avec cette recette..."
+                  className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-red-500 mb-4"
+                  rows={4}
+                  required
+                />
+                
+                <div className="flex items-center space-x-3">
+                  <button
+                    type="submit"
+                    disabled={isSubmittingReview}
+                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-red-400"
+                  >
+                    {isSubmittingReview 
+                      ? 'Publication...' 
+                      : editingReviewId 
+                        ? 'Mettre à jour' 
+                        : 'Publier'}
+                  </button>
+                  
+                  {editingReviewId && (
+                    <button
+                      type="button"
+                      onClick={cancelEditing}
+                      className="px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                    >
+                      Annuler
+                    </button>
+                  )}
+                </div>
+              </form>
+            )}
+          </div>
+
+          {/* Reviews List */}
+          {showReviews && (
+            <div className="space-y-6">
+              {reviews.length === 0 ? (
+                <p className="text-gray-500 italic text-center py-8">
+                  Soyez le premier à donner votre avis sur cette recette !
+                </p>
+              ) : (
+                reviews.map(review => (
+                  <div key={review.id} className="border-b border-gray-100 pb-6 last:border-b-0">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                          {review.userAvatar ? (
+                            <img 
+                              src={review.userAvatar} 
+                              alt={review.userName} 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-red-100 text-red-600">
+                              {review.userName.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div>
+                          <div className="flex items-center">
+                            <p className="font-medium text-gray-800">{review.userName}</p>
+                            <span className="mx-2 text-gray-300">•</span>
+                            <span className="text-sm text-gray-500">{formatDate(review.createdAt)}</span>
+                          </div>
+                          
+                          <div className="mt-1">
+                            {renderRatingDisplay(review.rating)}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {currentUser && currentUser.id === review.userId && (
+                        <div className="flex space-x-2">
+                          <button 
+                            onClick={() => editReview(review)}
+                            className="text-gray-500 hover:text-gray-700"
+                          >
+                            <Edit size={16} />
+                          </button>
+                          <button 
+                            onClick={() => deleteReview(review.id)}
+                            className="text-gray-500 hover:text-red-600"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <p className="mt-3 text-gray-700">{review.text}</p>
+                    
+                    <div className="mt-3 flex items-center">
+                      <button 
+                        onClick={() => likeReview(review.id)}
+                        className={`flex items-center space-x-1 text-sm ${
+                          currentUser && review.likes?.includes(currentUser.id)
+                            ? 'text-orange-600'
+                            : 'text-gray-500 hover:text-orange-600'
+                        }`}
+                      >
+                        <ThumbsUp size={14} />
+                        <span>{review.likes?.length || 0}</span>
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
