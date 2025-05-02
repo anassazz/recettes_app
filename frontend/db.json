@@ -27,6 +27,13 @@
       "email": "anass.azz2030@gmail.com",
       "password": "1234777",
       "role": "user"
+    },
+    {
+      "id": "1746199329442",
+      "name": "anass",
+      "email": "anasazd2030@gmail.com",
+      "password": "AA12345",
+      "role": "user"
     }
   ],
   "recipes": [
@@ -150,6 +157,16 @@
       "id": "1746175601670",
       "userId": "2",
       "recipeId": "3"
+    },
+    {
+      "id": "1746199293754",
+      "userId": "1",
+      "recipeId": "2"
+    },
+    {
+      "id": "1746199339062",
+      "userId": "1746199329442",
+      "recipeId": "2"
     }
   ]
 }
